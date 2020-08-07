@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Call Me Maybe: Ea­ves­drop­ping En­cryp­ted LTE Calls With Re­VoL­TE</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/mdb.min.css" rel="stylesheet">
+  <link href="css/style.min.css" rel="stylesheet">
+</head>
+
+<body>
+  <header>
+
+    <nav class="navbar fixed-top navbar-expand-lg navbar-dark elegant-color-dark">
+      <div class="smooth-scroll">
+        <a class="navbar-brand smooth-scroll" href="#title">ReVoLTE</a>
+      </div>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+        aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav">
+          <!-- Left -->
+          <ul class="navbar-nav mr-auto smooth-scroll">
+            <li class="nav-item active">
+              <a class="nav-link" href="#intro">Introduction</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#attack">ReVoLTE Attack</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#demo">Demo</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#app">App</a>
+            </li>
+            <!-- <li class="nav-item">
+              <a class="nav-link" href="#consequences">Consequences</a>
+            </li> -->
+            <li class="nav-item">
+              <a class="nav-link" href="#paper">Paper</a>
+            </li>
+            <!-- <li class="nav-item">
+              <a class="nav-link" href="#faq">FAQ</a>
+            </li> -->
+          </ul>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <br>
+
+  <div class="pt-5 mx-lg-5">
+    <div class="container" id="title">
+      <div class="jumbotron">
+        <div class="row">
+          <div class="col-sm-2">
+            <img src="images/imp4gt_man.png" width="90%" alt="">
+          </div>
+          <div class="col-sm-10">
+            <h1 class="h1-responsive">Call Me Maybe: Ea­ves­drop­ping En­cryp­ted LTE Calls With Re­VoL­TE</h1>
+            <hr class="my-2">
+
+            <p>David Rupprecht, Katharina Kohls, Thorsten Holz, and Christina P&ouml;pper</p>
+            <p> Ruhr University Bochum &amp; New York University Abu Dhabi</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <br>
+
+    <div class="container" id="intro">
+      <h1 class="display-4">Introduction</h1>
+      <hr>
+
+      <br>
+
+      <div class="row">
+        <div class="col-sm-7">
+          <p>
+
+            Voice over LTE <a href="https://en.wikipedia.org/wiki/Voice_over_LTE">(VoLTE)</a> is a packet-based telephony service seamlessly integrated into the Long Term Evolution (LTE) standard. By now all major telecommunication operators use VoLTE. To secure the phone calls, VoLTE encrypts the voice data between the phone and the network with a stream cipher. The stream cipher shall generate a unique keystream for each call, to prevent the problem of <a href="https://en.wikipedia.org/wiki/Stream_cipher_attacks#Reused_key_attack"> keystream reuse</a>. 
+          </p>
+          </br> 
+          <p>
+            We introduce ReVoLTE, an attack that exploits an LTE implementation flaw to recover the contents of an encrypted VoLTE call. This enables an adversary to eavesdrop on VoLTE phone calls. ReVoLTE makes use of a predictable <a href="https://en.wikipedia.org/wiki/Stream_cipher_attacks#Reused_key_attack"> keystream reuse </a> on the radio layer that allows an adversary to decrypt a recorded call with minimal resources. 
+
+          </p>
+        </br> 
+          <p>
+            In the following, we provide an overview of the ReVoLTE attack, the implications and <a href="#demo">demonstrate </a> the feasibility of the ReVoLTE attack in a commercial network. Further, we publish an <a href="#app">App</a> that allows tech savvy people to track still vulnerable networks down.  Our work will appear
+            at the <a href="https://www.usenix.org/conference/usenixsecurity20">29th USENIX Security Symposium
+              (2020)</a> and all details are available in a <a href="#paper">pre-print version of the paper</a>.
+          </p>
+
+
+        </div>
+        <div class="col-sm-5">
+          <img src="images/mutual_authentication.png" width="100%" class="img-fluid" alt="Responsive image">
+        </div>
+      </div>
+    </div>
+    <br>
+
+    <div class="container" id="attack">
+      <h1 class="display-4">ReVoLTE Attack</h1>
+      <hr>
+      <br>
+      <div class="row">
+        <div class="col-sm-6">
+          <img src="images/imp4gt_attack_vector.png" width="85%" class="img-fluid" alt="Responsive image">
+        </div>
+        <div class="col-sm-6">
+          <h2>What does ReVoLTE exploit?</h2>
+          <p>
+            The ReVoLTE attacks exploit the reuse of the same keystream for two subsequent calls within one radio connection. This weakness is caused by an implementation flaw of the base station (eNodeB) vendors. In order to determine how widespread the security gap was, we tested a number of randomly selected radio cells mainly across other Germany but also other countries. The security gap affected 12 of 15 base stations. 
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <h2>How does the ReVoLTE attack work?</h2>
+          <p>
+            The ReVoLTE attack aims to eavesdrop the call between Alice and Bob. We will name this call the target or first call. To perform the attack, the attacker sniffs the encrypted radio of Alice with a vulnerable base station. Shortly after the first call ends, the attacker calls Alice and engage her in a conversation. We name this second call, also keystream call. For this call the attacker sniffs the encrypted radio traffic of Alice and records the unencrypted sound at his phone (known plaintext). 
+          </p>
+        </div>
+      </br>
+
+        <div class="col-sm-6">
+        </br></br>
+          <p>
+            For decrypting the target call, the attacker must now compute the following: First, the attacker xors known plaintext (recorded at the attacker's phone) with the ciphertext of the keystream call. Thus, the attacker computes the keystream of the keystream call. Due to the vulnerable base station, this keystream is the same as for the target (first) call. In a second step, the attacker decrypts the first call by xoring the keystream with the first call's ciphertext. It is important to note that the attacker has to engage the victim in a longer conversation. The longer he/she talked to the victim, the more content of the previous communication he/she can decrypt. For example, if the attacker and victim spoke for five minutes, the attacker could later decode five minutes of the previous conversation.
+          </p>
+        </div>
+      </div>
+    </br>
+      <div class="row">
+        <div class="col-sm-12">
+          <img src="images/ReVoLTE.png" width="100%" class="img-fluid" alt="Responsive image">
+        </div>
+      </div>
+    </br>
+      <div class="row">
+        <div class="col-sm-6">
+          <img src="images/imp4gt_attack_vector.png" width="85%" class="img-fluid" alt="Responsive image">
+        </div>
+        <div class="col-sm-6">
+          <h2>Are my phone calls still vulnerable to eavesdropping via ReVoLTE?</h2>
+          <p>
+            To mitigate the threat of eavesdropping, we have informed providers about the attack vector through the GSMA <a href="https://www.gsma.com/security/gsma-coordinated-vulnerability-disclosure-programme/">Coordinated
+              Vulnerability Disclosure Programme</a> process at the beginning of December 2019. The GSMA requested vendors to provide patches for affected base stations. By publication, those vendors should have provided patches, and providers are requested to install and configure them securely. A re-test indicates that the German operators have managed to install the patches. However, we need to consider a large number of providers worldwide and their large deployments. It is thus crucial to raise awareness about the vulnerability. In case you want to know if your network is vulnerable or not, you can test it with our <a href="#app">App.</a>
+          </p>
+        </div>
+      </div>
+      
+      <br>
+
+    </div>
+
+    <br>
+
+    <div class="container" id="demo">
+      <h1 class="display-4">Demonstration</h1>
+      <hr>
+      <div class="row">
+        <div class="col-sm-12">
+          <p>
+            To demonstrate the practical feasibility of the ReVoLTE attack, we have implemented a end-to-end version of the attack within a commercial network (which was vulnerable) and commercial phones. We use the affordable downlink analyzer <a href="https://www.softwareradiosystems.com/products/#AirScope"> Airscope </a> by <a
+              href="http://www.softwareradiosystems.com/">Software Radio System</a> to sniff the encrypted traffic. We used three Android-based phones which are controlled via ADB and <a href="https://github.com/fgsect/scat"> SCAT </a> to obtain the known plaintext at the attacker's phone. Please watch the demonstration video below.
+          </p>
+          
+          <div class="embed-responsive embed-responsive-16by9">
+            <iframe class="embed-responsive-item"
+              src="https://www.youtube-nocookie.com/embed/FiiELuFvwu0?rel=0&showinfo=0&vq=hd1080"></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <br>
+
+    <!-- <div class="container" id="consequences">
+      <h1 class="display-4">Consequences</h1>
+      <hr>
+    </div>
+    <br> -->
+
+    <div class="container" id="app">
+      <h1 class="display-4">Mobile Sentinel App</h1>
+      <hr>
+
+      <div class="row">
+        <div class="col-sm-4">
+          <img src="images/detection_screenshot_c.png" width="80%" class="img-fluid" alt="Responsive image">
+        </div>
+
+        <div class="col-sm-8">
+          <h2>Is it possible to detect if the base station is vulnerable to ReVoLTE?</h2>
+          <p>
+            Yes, we (mainly Bedran) have developed an App that allows to detect whether a base station is vulnerable to the ReVoLTE attack or not. The App requirers a VoLTE capable Android phone with root access and a Qualcomm chipset. Please  <a href="https://github.com/RUB-SysSec/mobile_sentinel"> click here </a> to visit the <a href="https://github.com/RUB-SysSec/mobile_sentinel">Github page </a> regarding the the Mobile Sentinel App.
+          </p>
+        </div>
+      </div>
+    </div>
+
+
+    <br>
+
+    <div class="container" id="paper">
+      <h1 class="display-4">Technical Paper</h1>
+
+      <hr>
+      <div>
+        Our work appears at the
+        <a href="https://www.usenix.org/conference/usenixsecurity20"> 29th USENIX Security Symposium</a>. Please find <a href="media/revolte_camera_ready.pdf">here</a> a version of the paper
+        (<a href="media/revolte_camera_ready.pdf">PDF file</a>).
+      </div>
+
+      <br>
+      <h4>Abstract</h4>
+      <div>
+        Voice over LTE (VoLTE) is a packet-based telephony service seamlessly integrated into the Long Term Evolution (LTE) standard and deployed by most telecommunication providers in practice. Due to this widespread use, successful attacks against VoLTE can affect a large number of users worldwide. In this work, we introduce ReVoLTE, an attack that exploits an LTE implementation flaw to recover the contents of an encrypted VoLTE call, hence enabling an adversary to eavesdrop on phone calls. ReVoLTE makes use of a predictable keystream reuse on the radio layer that allows an adversary to decrypt a recorded call with minimal resources. Through a series of preliminary as well as real-world experiments, we successfully demonstrate the feasibility of ReVoLTE and analyze various factors that critically influence our attack in commercial networks. For mitigating the ReVoLTE attack, we propose and discuss short- and long-term countermeasures deployable by providers and equipment vendors.
+      </div>
+
+      <br>
+      <h4>BibTeX</h4>
+      <div>
+        If you want to cite the paper, please use the following BibTeX entry:
+      </div>
+
+      <br>
+      <pre class="code">@inproceedings{rupprecht-20-revolte,
+    author = {Rupprecht, David and Kohls, Katharina and Holz, Thorsten and P\"{o}pper, Christina},
+    title = {{Call Me Maybe: Ea­ves­drop­ping En­cryp­ted LTE Calls With Re­VoL­TE}},
+    booktitle = {{USENIX Security Symposium (SSYM)}},
+    year = {2020},
+    month = aug,
+    publisher = {USENIX Association}
+}</pre>
+    </div>
+
+    <br>
+
+    <!-- <div class="container" id="faq">
+      <h1 class="display-4">Frequently Asked Questions</h1>
+      <hr>
+
+      <br>
+
+      <div>
+        <a class="black-text" data-toggle="collapse" href="#collapse3" aria-expanded="false" aria-controls="collapse3">
+          <h5>What does
+            <i>close proximity</i> mean?&nbsp
+            <i class="fa fa-angle-down rotate-icon"></i>
+          </h5>
+        </a>
+        <div class="collapse" id="collapse3">
+          <div class="card">
+            <div class="card-body">
+              <div class="card-text">
+                In our test setup, we conducted the attacks with minimal distance between the victim's phone and our
+                LTE
+                relay. This is not possible in a realistic
+                scenario, where the attacker needs to deploy the LTE relay without revealing herself. We can assume
+                that our attacks are comparable to so-called
+                <i><a href="https://en.wikipedia.org/wiki/IMSI-catcher">IMSI catchers / Stingrays</a></i> that are
+                successful in ranges of up to approximately 2km.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <br>
+
+      <div>
+        <a class="black-text" data-toggle="collapse" href="#collapse4" aria-expanded="false" aria-controls="collapse4">
+          <h5>What is the difference to
+            <i>IMSI catchers</i>?&nbsp
+            <i class="fa fa-angle-down rotate-icon"></i>
+          </h5>
+        </a>
+        <div class="collapse" id="collapse4">
+          <div class="card">
+            <div class="card-body">
+              <div class="card-text">
+                The technical characteristics of the attack are comparable to <a
+                  href="https://en.wikipedia.org/wiki/IMSI-catcher">IMSI catchers</a>, as in both cases the attacker
+                simulates a malicious network towards the victim. Nevertheless, we find two general differences.
+                First,
+                the relay <i>actively</i> sends data to the mobile network and acts as a Man-in-the-Middle attacker
+                that
+                modifies packet contents. Second, classical IMSI-catching attacks try to identify and localize the
+                victim. In the IMP4GT attack, the attacker impersonates a victim or network.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <br>
+
+      <div>
+        <a class="black-text" data-toggle="collapse" href="#collapse5" aria-expanded="false" aria-controls="collapse4">
+          <h5>What is the difference to the
+            <i> aLTEr attack</i>?&nbsp
+            <i class="fa fa-angle-down rotate-icon"></i>
+          </h5>
+        </a>
+        <div class="collapse" id="collapse5">
+          <div class="card">
+            <div class="card-body">
+              <div class="card-text">
+                The aLTEr attack aims to redirect a user to a malicious website, while the IMP4GT impersonates a
+                victim
+                towards the network or vice versa. Similar to the aLTEr attack, the IMP4GT exploits missing
+                integrity
+                protection of the user plane. The IMP4GT attack goes further and exploits additionally operating
+                system's
+                reflection mechanism to establish an encryption and decryption oracle that allows to inject
+                arbitrary
+                packets and access the payload of existing packets.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <br>
+
+      <div>
+        <a class="black-text" data-toggle="collapse" href="#collapse7" aria-expanded="false" aria-controls="collapse7">
+          <h5>Did you responsibly disclose the attacks?&nbsp
+            <i class="fa fa-angle-down rotate-icon"></i>
+          </h5>
+        </a>
+        <div class="collapse" id="collapse7">
+          <div class="card">
+            <div class="card-body">
+              <div class="card-text">
+                Yes, we have contacted the GSMA on 16.05.19 about the issues with the
+                <a href="https://www.gsma.com/security/gsma-coordinated-vulnerability-disclosure-programme/">Coordinated
+                  Vulnerability Disclosure Programme</a>. The GSMA informed the network providers and issued a
+                <a
+                  href="http://www.3gpp.org/ftp/Inbox/LSs_from_external_bodies/GSMA_CVD/CVD%20Doc24_01%20LS%20to%203GPP.zip">
+                  liaison statement</a> to inform the 3GPP specification body. The 3GPP ran group evaluated possible
+                actions
+                for LTE and the upcoming 5G specification and composed a
+                <a href="https://www.3gpp.org/ftp/tsg_ran/WG2_RL2/TSGR2_107/LSout/R2-1911819.zip">statement</a>
+                regarding the attacks.
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <br>
+
+
+      <div>
+        <a class="black-text" data-toggle="collapse" href="#collapse8" aria-expanded="false" aria-controls="collapse7">
+          <h5>Is this attack specific to a particular network vendor?&nbsp
+            <i class="fa fa-angle-down rotate-icon"></i>
+          </h5>
+        </a>
+        <div class="collapse" id="collapse8">
+          <div class="card">
+            <div class="card-body">
+              <div class="card-text">
+                No, the attack builds upon a specification flaw which means that all network vendors are equally
+                vulnerable.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <br>
+
+    </div> -->
+  </div>
+  </div> <!-- Footer -->
+  <footer class="page-footer font-small elegant-color-dark pt-4 mt-4">
+
+    <!-- Footer Links -->
+    <div class="container-fluid text-center text-md-left">
+
+      <!-- Grid row -->
+      <div class="row">
+
+        <!-- Grid column -->
+        <div class="col-md-6 mt-md-0 mt-3">
+
+          <!-- Content -->
+          <h5 class="text-uppercase">Call Me Maybe: Ea­ves­drop­ping En­cryp­ted LTE Calls With Re­VoL­TE</h5>
+          <p>David Rupprecht, Katharina Kohls, Thorsten Holz, and Christina P&ouml;pper</br>
+            Ruhr University Bochum &amp; New York University Abu Dhabi</p>
+
+          <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License"
+              style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png" /></a><br /><span
+            xmlns:dct="http://purl.org/dc/terms/" property="dct:title">Illustrations for ReVoLTE </span> by <a
+            href="http://kkohls.org" property="cc:attributionName" rel="cc:attributionURL">Katharina Kohls</a> is
+          licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">Creative Commons
+            Attribution-NonCommercial-NoDerivatives 4.0 International License</a>.
+
+        </div>
+        <!-- Grid column -->
+
+        <hr class="clearfix w-100 d-md-none pb-3">
+
+        <!-- Grid column -->
+        <div class="col-md-6 mb-md-0 mb-3">
+
+          <!-- Links -->
+          <h5 class="text-uppercase"><a href="/contact.html">Contact</a></h5>
+          <h5 class="text-uppercase"><a href="/privacy.html">Privacy & Impressum</a></h5>
+        </div>
+        <!-- Grid column -->
+
+      </div>
+      <!-- Grid row -->
+
+    </div>
+    <!-- Footer Links -->
+
+
+    <!-- Copyright -->
+    <!-- <div class="footer-copyright text-center font-small elegant-color-dark pt-4 mt-4">
+   
+    </div> -->
+    <!-- Copyright -->
+
+  </footer>
+  <!-- Footer -->
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script type="text/javascript" src="js/popper.min.js"></script>
+  <script type="text/javascript" src="js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="js/mdb.min.js"></script>
+  <script>
+    $('.navbar-collapse a').click(function () {
+      $(".navbar-collapse").collapse('hide');
+    });
+  </script>
+  <script>
+    $(".smooth-scroll").on('click', 'a', function (event) {
+      event.preventDefault();
+      var elAttr = $(this).attr('href');
+      var offset = ($(this).attr('data-offset') ? $(this).attr('data-offset') : 0);
+      var fixedTop = $('.navbar.fixed-top');
+      if (fixedTop && fixedTop.length) {
+        offset = fixedTop.outerHeight();
+      }
+      $('body,html').animate({
+        //scrollTop: $(elAttr).offset().top - offset
+        scrollTop: $(elAttr).offset().top - 56
+      }, 700);
+    });
+  </script>
+</body>
+
+</html>
