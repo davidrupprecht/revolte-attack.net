@@ -90,8 +90,7 @@
           </p>
           </br> 
           <p>
-            We introduce ReVoLTE, an attack that exploits an LTE implementation flaw to recover the contents of an encrypted VoLTE call. This enables an adversary to eavesdrop on VoLTE phone calls. ReVoLTE makes use of a predictable <a href="https://en.wikipedia.org/wiki/Stream_cipher_attacks#Reused_key_attack"> keystream reuse </a> on the radio layer that allows an adversary to decrypt a recorded call with minimal resources. 
-
+            We introduce ReVoLTE, an attack that exploits an LTE implementation flaw to recover the contents of an encrypted VoLTE call. This enables an adversary to eavesdrop on VoLTE phone calls. ReVoLTE makes use of a predictable <a href="https://en.wikipedia.org/wiki/Stream_cipher_attacks#Reused_key_attack"> keystream reuse </a> which as discovered by  <a href="https://www.researchgate.net/publication/328927054_On_Key_Reinstallation_Attacks_over_4G5G_LTE_Networks_Feasibility_and_Negative_Impact">Raza & Lu</a>. Eventually, the keystream reuse allows an adversary to decrypt a recorded call with minimal resources. 
           </p>
         </br> 
           <p>
@@ -120,7 +119,7 @@
         <div class="col-sm-6">
           <h2>What does ReVoLTE exploit?</h2>
           <p>
-            The ReVoLTE attacks exploit the reuse of the same keystream for two subsequent calls within one radio connection. This weakness is caused by an implementation flaw of the base station (eNodeB) vendors. In order to determine how widespread the security gap was, we tested a number of randomly selected radio cells mainly across other Germany but also other countries. The security gap affected 12 of 15 base stations. 
+            The ReVoLTE attacks exploit the reuse of the same keystream for two subsequent calls within one radio connection. This weakness is caused by an implementation flaw of the base station (eNodeB) vendors. In order to determine how widespread the security gap was, we tested a number of randomly selected radio cells mainly across Germany but also other countries. The security gap affected 12 of 15 base stations. 
           </p>
         </div>
       </div>
@@ -128,7 +127,7 @@
         <div class="col-sm-6">
           <h2>How does the ReVoLTE attack work?</h2>
           <p>
-            The ReVoLTE attack aims to eavesdrop the call between Alice and Bob. We will name this call the target or first call. To perform the attack, the attacker sniffs the encrypted radio of Alice with a vulnerable base station. Shortly after the first call ends, the attacker calls Alice and engage her in a conversation. We name this second call, also keystream call. For this call the attacker sniffs the encrypted radio traffic of Alice and records the unencrypted sound at his phone (known plaintext). 
+            The ReVoLTE attack aims to eavesdrop the call between Alice and Bob. We will name this call the target or first call. To perform the attack, the attacker sniffs the encrypted radio of Alice with a vulnerable base station. Shortly after the first call ends, the attacker calls Alice and engages her in a conversation. We name this second call, also keystream call. For this call the attacker sniffs the encrypted radio traffic of Alice and records the unencrypted sound at his phone (known plaintext). 
           </p>
         </div>
       </br>
@@ -155,7 +154,7 @@
           <h2>Are my phone calls still vulnerable to eavesdropping via ReVoLTE?</h2>
           <p>
             To mitigate the threat of eavesdropping, we have informed providers about the attack vector through the GSMA <a href="https://www.gsma.com/security/gsma-coordinated-vulnerability-disclosure-programme/">Coordinated
-              Vulnerability Disclosure Programme</a> process at the beginning of December 2019. The GSMA requested vendors to provide patches for affected base stations. By publication, those vendors should have provided patches, and providers are requested to install and configure them securely. A re-test indicates that the German operators have managed to install the patches. However, we need to consider a large number of providers worldwide and their large deployments. It is thus crucial to raise awareness about the vulnerability. In case you want to know if your network is vulnerable or not, you can test it with our <a href="#app">App.</a>
+              Vulnerability Disclosure Programme</a> process at the beginning of December 2019. The GSMA requested vendors to provide patches for affected base stations. By the time of publication, those vendors should have provided patches, and providers are requested to install and configure them securely. A re-test indicates that the German operators have managed to install the patches. However, we need to consider a large number of providers worldwide and their large deployments. It is thus crucial to raise awareness about the vulnerability. In case you want to know if your network is vulnerable or not, you can test it with our <a href="#app">App.</a>
           </p>
         </div>
       </div>
@@ -172,7 +171,7 @@
       <div class="row">
         <div class="col-sm-12">
           <p>
-            To demonstrate the practical feasibility of the ReVoLTE attack, we have implemented a end-to-end version of the attack within a commercial network (which was vulnerable) and commercial phones. We use the affordable downlink analyzer <a href="https://www.softwareradiosystems.com/products/#AirScope"> Airscope </a> by <a
+            To demonstrate the practical feasibility of the ReVoLTE attack, we have implemented an end-to-end version of the attack within a commercial network (which was vulnerable) and commercial phones. We use the affordable downlink analyzer <a href="https://www.softwareradiosystems.com/products/#AirScope"> Airscope </a> by <a
               href="http://www.softwareradiosystems.com/">Software Radio System</a> to sniff the encrypted traffic. We used three Android-based phones which are controlled via ADB and <a href="https://github.com/fgsect/scat"> SCAT </a> to obtain the known plaintext at the attacker's phone. Please watch the demonstration video below.
           </p>
           
@@ -204,7 +203,7 @@
         <div class="col-sm-8">
           <h2>Is it possible to detect if the base station is vulnerable to ReVoLTE?</h2>
           <p>
-            Yes, we (mainly Bedran) have developed an App that allows to detect whether a base station is vulnerable to the ReVoLTE attack or not. The App requirers a VoLTE capable Android phone with root access and a Qualcomm chipset. Please  <a href="https://github.com/RUB-SysSec/mobile_sentinel"> click here </a> to visit the <a href="https://github.com/RUB-SysSec/mobile_sentinel">Github page </a> regarding the the Mobile Sentinel App.
+            Yes, we (mainly <a href="https://twitter.com/BedranKK"> Bedran</a>) have developed an App that allows to detect whether a base station is vulnerable to the ReVoLTE attack or not. The App requirers a VoLTE capable Android phone with root access and a Qualcomm chipset. Please  <a href="https://github.com/RUB-SysSec/mobile_sentinel"> click here </a> to visit the <a href="https://github.com/RUB-SysSec/mobile_sentinel">Github page </a> regarding the Mobile Sentinel App.
           </p>
         </div>
       </div>
