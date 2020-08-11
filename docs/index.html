@@ -61,7 +61,7 @@
       <div class="jumbotron">
         <div class="row">
           <div class="col-sm-2">
-            <img src="images/imp4gt_man.png" width="90%" alt="">
+            <img src="images/revolte_icon.jpg" width="100%" alt="">
           </div>
           <div class="col-sm-10">
             <h1 class="h1-responsive">Call Me Maybe: Ea­ves­drop­ping En­cryp­ted LTE Calls With Re­VoL­TE</h1>
@@ -86,15 +86,15 @@
         <div class="col-sm-7">
           <p>
 
-            Voice over LTE <a href="https://en.wikipedia.org/wiki/Voice_over_LTE">(VoLTE)</a> is a packet-based telephony service seamlessly integrated into the Long Term Evolution (LTE) standard. By now all major telecommunication operators use VoLTE. To secure the phone calls, VoLTE encrypts the voice data between the phone and the network with a stream cipher. The stream cipher shall generate a unique keystream for each call, to prevent the problem of <a href="https://en.wikipedia.org/wiki/Stream_cipher_attacks#Reused_key_attack"> keystream reuse</a>. 
+            Voice over LTE <a href="https://en.wikipedia.org/wiki/Voice_over_LTE">(VoLTE)</a> is a packet-based telephony service seamlessly integrated into the Long Term Evolution (LTE) standard. By now all major telecommunication operators use VoLTE. To secure the phone calls, VoLTE encrypts the voice data between the phone and the network with a stream cipher. The stream cipher shall generate a unique keystream for each call to prevent the problem of <a href="https://en.wikipedia.org/wiki/Stream_cipher_attacks#Reused_key_attack"> keystream reuse</a>. 
           </p>
           </br> 
           <p>
-            We introduce ReVoLTE, an attack that exploits an LTE implementation flaw to recover the contents of an encrypted VoLTE call. This enables an adversary to eavesdrop on VoLTE phone calls. ReVoLTE makes use of a predictable <a href="https://en.wikipedia.org/wiki/Stream_cipher_attacks#Reused_key_attack"> keystream reuse </a> which as discovered by  <a href="https://www.researchgate.net/publication/328927054_On_Key_Reinstallation_Attacks_over_4G5G_LTE_Networks_Feasibility_and_Negative_Impact">Raza & Lu</a>. Eventually, the keystream reuse allows an adversary to decrypt a recorded call with minimal resources. 
+            We introduce ReVoLTE, an attack that exploits an LTE implementation flaw to recover the contents of an encrypted VoLTE call. This enables an adversary to eavesdrop on VoLTE phone calls. ReVoLTE makes use of a predictable <a href="https://en.wikipedia.org/wiki/Stream_cipher_attacks#Reused_key_attack"> keystream reuse, </a> which was discovered by  <a href="https://www.researchgate.net/publication/328927054_On_Key_Reinstallation_Attacks_over_4G5G_LTE_Networks_Feasibility_and_Negative_Impact">Raza & Lu</a>. Eventually, the keystream reuse allows an adversary to decrypt a recorded call with minimal resources. 
           </p>
         </br> 
           <p>
-            In the following, we provide an overview of the ReVoLTE attack, the implications and <a href="#demo">demonstrate </a> the feasibility of the ReVoLTE attack in a commercial network. Further, we publish an <a href="#app">App</a> that allows tech savvy people to track still vulnerable networks down.  Our work will appear
+            In the following, we provide an overview of the ReVoLTE attack, the implications, and <a href="#demo">demonstrate </a> the feasibility of the ReVoLTE attack in a commercial network. Further, we publish an <a href="#app">App</a> that allows tech savvy people to track networks down that are still vulnerable. Our work will appear
             at the <a href="https://www.usenix.org/conference/usenixsecurity20">29th USENIX Security Symposium
               (2020)</a> and all details are available in a <a href="#paper">pre-print version of the paper</a>.
           </p>
@@ -102,7 +102,7 @@
 
         </div>
         <div class="col-sm-5">
-          <img src="images/mutual_authentication.png" width="100%" class="img-fluid" alt="Responsive image">
+          <img src="images/encryption.jpg" width="100%" class="img-fluid" alt="Responsive image">
         </div>
       </div>
     </div>
@@ -119,7 +119,7 @@
         <div class="col-sm-6">
           <h2>What does ReVoLTE exploit?</h2>
           <p>
-            The ReVoLTE attacks exploit the reuse of the same keystream for two subsequent calls within one radio connection. This weakness is caused by an implementation flaw of the base station (eNodeB) vendors. In order to determine how widespread the security gap was, we tested a number of randomly selected radio cells mainly across Germany but also other countries. The security gap affected 12 of 15 base stations. 
+            The ReVoLTE attacks exploit the reuse of the same keystream for two subsequent calls within one radio connection. This weakness is caused by an implementation flaw of the base station (eNodeB). In order to determine how widespread the security gap was, we tested a number of randomly selected radio cells mainly across Germany but also other countries. The security gap affected 12 out of 15 base stations. 
           </p>
         </div>
       </div>
@@ -127,7 +127,7 @@
         <div class="col-sm-6">
           <h2>How does the ReVoLTE attack work?</h2>
           <p>
-            The ReVoLTE attack aims to eavesdrop the call between Alice and Bob. We will name this call the target or first call. To perform the attack, the attacker sniffs the encrypted radio of Alice with a vulnerable base station. Shortly after the first call ends, the attacker calls Alice and engages her in a conversation. We name this second call, also keystream call. For this call the attacker sniffs the encrypted radio traffic of Alice and records the unencrypted sound at his phone (known plaintext). 
+            The ReVoLTE attack aims to eavesdrop the call between Alice and Bob. We will name this call the target or first call. To perform the attack, the attacker sniffs the encrypted radio traffic of Alice within the cell of a vulnerable base station. Shortly after the first call ends, the attacker calls Alice and engages her in a conversation. We name this second call, or keystream call. For this call, the attacker sniffs the encrypted radio traffic of Alice and records the unencrypted sound (known plaintext). 
           </p>
         </div>
       </br>
@@ -135,7 +135,7 @@
         <div class="col-sm-6">
         </br></br>
           <p>
-            For decrypting the target call, the attacker must now compute the following: First, the attacker xors known plaintext (recorded at the attacker's phone) with the ciphertext of the keystream call. Thus, the attacker computes the keystream of the keystream call. Due to the vulnerable base station, this keystream is the same as for the target (first) call. In a second step, the attacker decrypts the first call by xoring the keystream with the first call's ciphertext. It is important to note that the attacker has to engage the victim in a longer conversation. The longer he/she talked to the victim, the more content of the previous communication he/she can decrypt. For example, if the attacker and victim spoke for five minutes, the attacker could later decode five minutes of the previous conversation.
+            For decrypting the target call, the attacker must now compute the following: First, the attacker xors the known plaintext (recorded at the attacker's phone) with the ciphertext of the keystream call. Thus, the attacker computes the keystream of the keystream call. Due to the vulnerable base station, this keystream is the same as for the target (first) call. In a second step, the attacker decrypts the first call by xoring the keystream with the first call's ciphertext. It is important to note that the attacker has to engage the victim in a longer conversation. The longer he/she talked to the victim, the more content of the previous communication he/she can decrypt. For example, if the attacker and victim spoke for five minutes, the attacker could later decode five minutes of the previous conversation.
           </p>
         </div>
       </div>
@@ -147,10 +147,10 @@
       </div>
     </br>
       <div class="row">
-        <div class="col-sm-6">
-          <img src="images/imp4gt_attack_vector.png" width="85%" class="img-fluid" alt="Responsive image">
+        <div class="col-sm-4">
+          <img src="images/fixed_basestation.png" width="60%" class="img-fluid" alt="Responsive image">
         </div>
-        <div class="col-sm-6">
+        <div class="col-sm-8">
           <h2>Are my phone calls still vulnerable to eavesdropping via ReVoLTE?</h2>
           <p>
             To mitigate the threat of eavesdropping, we have informed providers about the attack vector through the GSMA <a href="https://www.gsma.com/security/gsma-coordinated-vulnerability-disclosure-programme/">Coordinated
@@ -171,8 +171,8 @@
       <div class="row">
         <div class="col-sm-12">
           <p>
-            To demonstrate the practical feasibility of the ReVoLTE attack, we have implemented an end-to-end version of the attack within a commercial network (which was vulnerable) and commercial phones. We use the affordable downlink analyzer <a href="https://www.softwareradiosystems.com/products/#AirScope"> Airscope </a> by <a
-              href="http://www.softwareradiosystems.com/">Software Radio System</a> to sniff the encrypted traffic. We used three Android-based phones which are controlled via ADB and <a href="https://github.com/fgsect/scat"> SCAT </a> to obtain the known plaintext at the attacker's phone. Please watch the demonstration video below.
+            To demonstrate the practical feasibility of the ReVoLTE attack, we have implemented an end-to-end version of the attack within a commercial network (which was vulnerable) and commercial phones. We use the downlink analyzer <a href="https://www.softwareradiosystems.com/products/#AirScope"> Airscope </a> by <a
+              href="http://www.softwareradiosystems.com/">Software Radio System</a> to sniff the encrypted traffic. Further, we use three Android-based phones which are controlled via ADB and <a href="https://github.com/fgsect/scat"> SCAT </a> to obtain the known plaintext at the attacker's phone. For a demonstration of these steps, please refer to the video below.
           </p>
           
           <div class="embed-responsive embed-responsive-16by9">
@@ -203,7 +203,7 @@
         <div class="col-sm-8">
           <h2>Is it possible to detect if the base station is vulnerable to ReVoLTE?</h2>
           <p>
-            Yes, we (mainly <a href="https://twitter.com/BedranKK"> Bedran</a>) have developed an App that allows to detect whether a base station is vulnerable to the ReVoLTE attack or not. The App requirers a VoLTE capable Android phone with root access and a Qualcomm chipset. Please  <a href="https://github.com/RUB-SysSec/mobile_sentinel"> click here </a> to visit the <a href="https://github.com/RUB-SysSec/mobile_sentinel">Github page </a> regarding the Mobile Sentinel App.
+            Yes, we (mainly <a href="https://twitter.com/BedranKK"> Bedran</a>) have developed an App that allows to detect whether a base station is vulnerable to the ReVoLTE attack or not. The App requires a VoLTE capable Android phone with root access and a Qualcomm chipset. Please <a href="https://github.com/RUB-SysSec/mobile_sentinel"> click here </a> to visit the <a href="https://github.com/RUB-SysSec/mobile_sentinel">Github page </a> regarding the Mobile Sentinel App.
           </p>
         </div>
       </div>
